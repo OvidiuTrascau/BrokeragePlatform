@@ -38,7 +38,7 @@ namespace Brokerage_Platform.Repository
 
         public void InsertTrader(TradersModel traderModel)
         {
-            traderModel.Id = Guid.NewGuid(); //generate a new Guid for the record
+            //traderModel.Id = Guid.NewGuid(); //generate a new Guid for the record
 
             dbContext.Traders.InsertOnSubmit(MapModelToDbObject(traderModel)); //add record in the Traders table
             dbContext.SubmitChanges(); //commit to database
