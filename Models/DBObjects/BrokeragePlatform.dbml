@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TradingDB" Class="BrokeragePlatformDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=.;Initial Catalog=TradingDB;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="TradingDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Accounts" Member="Accounts">
+    <Type Name="Account">
+      <Column Name="AccNumber" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="OpenDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TradeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Account_TradeItem" Member="TradeItems" ThisKey="AccNumber" OtherKey="AccNumber" Type="TradeItem" />
+      <Association Name="Account_Order" Member="Orders" ThisKey="AccNumber" OtherKey="AccNumber" Type="Order" />
+      <Association Name="Trader_Account" Member="Trader" ThisKey="TradeId" OtherKey="Id" Type="Trader" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderTypes" Member="OrderTypes">
+    <Type Name="OrderType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Association Name="OrderType_Order" Member="Orders" ThisKey="Id" OtherKey="OrderTypeId" Type="Order" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeItems" Member="TradeItems">
+    <Type Name="TradeItem">
+      <Column Name="ItemId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Symbol" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="AccNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Account_TradeItem" Member="Account" ThisKey="AccNumber" OtherKey="AccNumber" Type="Account" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Traders" Member="Traders">
+    <Type Name="Trader">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BirthPlace" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="Trader_Account" Member="Accounts" ThisKey="Id" OtherKey="TradeId" Type="Account" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Orders" Member="Orders">
+    <Type Name="Order">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OpenDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CloseDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Size" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="StopLoss" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="TakeProfit" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Comission" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="AccNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OrderTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Account_Order" Member="Account" ThisKey="AccNumber" OtherKey="AccNumber" Type="Account" IsForeignKey="true" />
+      <Association Name="OrderType_Order" Member="OrderType" ThisKey="OrderTypeId" OtherKey="Id" Type="OrderType" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
